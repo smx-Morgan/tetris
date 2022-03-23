@@ -153,15 +153,29 @@ public class Game {
 			Tetromino tetromino = board.getTetrominoAt(activeTetromino.getX(), activeTetromino.getY() - 1);
 			if(tetromino == null){
 				activeTetromino = activeTetromino.translate(0, -1);
+				//board.setActiveTetromino(activeTetromino);
+				if(activeTetromino.getY() == 0){
+					board.placeTetromino(activeTetromino);
+				}
+			}else{
+				board.placeTetromino(activeTetromino);
+				if(board.canPlaceTetromino(nextTetromino)){
+					activeTetromino = nextTetromino;
+					// select the next one in sequence
+					nextTetromino = nextActiveTetromino();
+				}
 			}
-		} else if(board.canPlaceTetromino(nextTetromino)){
+		}
+		else if(board.canPlaceTetromino(nextTetromino)){
 			// promote next tetromino to be active
+
 			activeTetromino = nextTetromino;
 			// select the next one in sequence
 			nextTetromino = nextActiveTetromino();
 		} else {
 			// indicates game over status
 		}
+		//board.placeTetromino(activeTetromino);
 		board.setActiveTetromino(activeTetromino);
 	}
 

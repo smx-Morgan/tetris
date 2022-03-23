@@ -42,7 +42,7 @@ public class Z_Tetromino extends AbstractTetromino {
 
 	@Override
 	public Rectangle getBoundingBox() {
-		return new Rectangle(-1, 0, 2, 0);
+		return new Rectangle(-1, 1, 1, 0);
 	}
 
 	@Override

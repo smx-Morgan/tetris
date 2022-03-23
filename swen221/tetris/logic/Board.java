@@ -193,7 +193,6 @@ public class Board {
 	 */
 	public void placeTetromino(Tetromino t) {
 		Rectangle r = t.getBoundingBox();
-		//
 		for (int x = r.getMinX(); x <= r.getMaxX(); ++x) {
 			for (int y = r.getMinY(); y <= r.getMaxY(); ++y) {
 				if (t.isWithin(x, y)) {
