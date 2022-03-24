@@ -20,11 +20,44 @@ public class ClockwiseRotation extends AbstractMove implements Move {
 	public Board apply(Board board) {
 		// Create copy of the board to prevent modifying its previous state.
 		board = new Board(board);
+		ActiveTetromino tetromino = board.getActiveTetromino();
 		// Create a copy of this board which will be updated.
-		ActiveTetromino tetromino = board.getActiveTetromino().rotate(1);
+
+		tetromino = board.getActiveTetromino().rotate(1);
+
+
 		// Apply the move to the new board, rather than to this board.
 		board.setActiveTetromino(tetromino);
 		// Return updated version of this board.
 		return board;
+	}
+
+	@Override
+	public boolean isValid(Board board) {
+		if(!super.isValid(board))
+			return false;
+		// make a copy of the board, otherwise it will break the original rules
+		Board boardCopy = new Board(board);
+
+		ActiveTetromino tetromino = boardCopy.getActiveTetromino().rotate(1);
+		// Apply the move to the new board, rather than to this board.
+		boardCopy.setActiveTetromino(tetromino);
+
+		// check if it is out side the broad
+		if(CheckOutside(tetromino,board))
+			return false;
+		return true;
+	}
+	public boolean CheckOutside(ActiveTetromino activeTetromino , Board board) {
+		// if left edge is vaidld return true
+		if(activeTetromino.getBoundingBox().getMinX() < 0) return true;
+
+		// if right edge is vaidld return true
+		if(activeTetromino.getBoundingBox().getMaxX() >= board.getWidth()) return true;
+
+		// if bottom edge is vaidld return true
+		if(activeTetromino.getBoundingBox().getMinY() < 0) return true;
+
+		return false;
 	}
 }

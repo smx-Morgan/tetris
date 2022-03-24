@@ -21,6 +21,8 @@ public abstract class AbstractMove implements Move {
 		// NOTE: to check whether move is valid or not, you can employ Move.apply() to
 		// compute the new board and then check whether the active tetromino is in a
 		// valid position.
+		if(board.getActiveTetromino() == null) return false;
+
 		return true;
 	}
 

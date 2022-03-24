@@ -147,11 +147,18 @@ public class Game {
 		//
 		ActiveTetromino activeTetromino = board.getActiveTetromino();
 		// Check whether it has landed
+		if(board.CheckLanded(activeTetromino)){
+			//place the teromino
+			board.placeTetromino(activeTetromino);
+			board.setActiveTetromino(null);
+			return;
+		}
 
-		if (activeTetromino != null && activeTetromino.getY()>0) {
+		if (activeTetromino != null ) {
 			// apply gravity
-			Tetromino tetromino = board.getTetrominoAt(activeTetromino.getX(), activeTetromino.getY() - 1);
-			if(tetromino == null){
+			activeTetromino = activeTetromino.translate(0, -1);
+			//Tetromino tetromino = board.getTetrominoAt(activeTetromino.getX(), activeTetromino.getY() - 1);
+			/*if(tetromino == null){
 				activeTetromino = activeTetromino.translate(0, -1);
 				//board.setActiveTetromino(activeTetromino);
 				if(activeTetromino.getY() == 0){
@@ -164,7 +171,7 @@ public class Game {
 					// select the next one in sequence
 					nextTetromino = nextActiveTetromino();
 				}
-			}
+			}*/
 		}
 		else if(board.canPlaceTetromino(nextTetromino)){
 			// promote next tetromino to be active
@@ -193,6 +200,7 @@ public class Game {
 		int cx = board.getWidth() / 2;
 		int cy = board.getHeight() - 2;
 		// set next tetromino
+		//Tetromino tetromino = tetrominoSequence.next();
 		return new ActiveTetromino(cx, cy, tetrominoSequence.next());
 	}
 }

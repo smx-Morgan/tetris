@@ -185,6 +185,40 @@ public class Board {
 	}
 
 
+	private boolean isLineFull(int y) {
+		for(int x = 0; x < width; ++x) {
+			if(getPlacedTetrominoAt(x, y) == null)
+				return false;
+		}
+		return true;
+	}
+	public boolean CheckLanded(ActiveTetromino activeTetromino){
+		//if it is null return false
+		if(activeTetromino == null){
+			return false;
+		}
+		//if torching floor return true
+		for(int x = 0; x < getWidth(); ++x) {
+			if (activeTetromino.isWithin(x, 0))
+				return true;
+		}
+		//check if there is color below the bound
+		Rectangle bound = activeTetromino.getBoundingBox();
+		for (int i = bound.getMinX(); i <= bound.getMaxX() ; i++) {
+			for (int j = bound.getMinY(); j <= bound.getMaxY() ; j++) {
+
+				if(!activeTetromino.isWithin(i, j))
+					continue;
+                //check if every tetromino don't have color below it
+				Tetromino t = getTetrominoAt(i, j-1);
+				if(t != null && t != activeTetromino)
+					return true;
+			}
+		}
+		return  false;
+	}
+
+
 	/**
 	 * Place a given tetromino on the board by filling out each square it contains
 	 * on the board.

@@ -24,7 +24,19 @@ public class DropMove implements Move {
 
 	@Override
 	public Board apply(Board board) {
-		return null;
+		// get the tetromino
+		ActiveTetromino tetromino = board.getActiveTetromino();
+
+		/*if(!board.CheckLanded(tetromino)){
+			tetromino = board.getActiveTetromino().translate(0, -1);
+			board.setActiveTetromino(tetromino);
+		}*/
+		//drop untill it land
+		while(!board.CheckLanded(tetromino)){
+			tetromino = board.getActiveTetromino().translate(0, -1);
+			board.setActiveTetromino(tetromino);
+		}
+		return board;
 	}
 
 	@Override
