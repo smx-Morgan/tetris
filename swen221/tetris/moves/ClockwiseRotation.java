@@ -20,6 +20,7 @@ public class ClockwiseRotation extends AbstractMove implements Move {
 	public Board apply(Board board) {
 		// Create copy of the board to prevent modifying its previous state.
 		board = new Board(board);
+
 		ActiveTetromino tetromino = board.getActiveTetromino();
 		// Create a copy of this board which will be updated.
 
@@ -40,6 +41,7 @@ public class ClockwiseRotation extends AbstractMove implements Move {
 		Board boardCopy = new Board(board);
 
 		ActiveTetromino tetromino = boardCopy.getActiveTetromino().rotate(1);
+
 		// Apply the move to the new board, rather than to this board.
 		boardCopy.setActiveTetromino(tetromino);
 

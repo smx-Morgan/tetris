@@ -151,6 +151,7 @@ public class Game {
 			//place the teromino
 			board.placeTetromino(activeTetromino);
 			board.setActiveTetromino(null);
+			board.LineProcess();
 			return;
 		}
 

@@ -50,4 +50,5 @@ public abstract class AbstractTranslation extends AbstractMove implements Move {
 		// Return updated version of board
 		return board;
 	}
+
 }

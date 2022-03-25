@@ -254,4 +254,44 @@ public class Board {
 		}
 		return res.toString();
 	}
+	public void LineProcess() {
+		// let i-> y, j-> x
+		int count = -1;
+		for (int i = height - 1; i >=0 ; i--) {
+			if(containY(i)){
+				count =Math.max(i,count);
+			}
+			if(lineFull(i)){
+				for (int j = 0; j < width; j++) {
+					// move the y+1 one to y
+					Tetromino tetromino = getPlacedTetrominoAt(j, i + 1);
+					setPlacedTetrominoAt(j, i, tetromino);
+					//remove the top layer
+					if(count != -1){
+						setPlacedTetrominoAt(j, count, null);
+					}
+				}
+				//if there have two layers to move
+				count = count - 1;
+			}
+		}
+	}
+	private boolean lineFull(int y){
+		for (int i = 0; i < width; i++) {
+			Tetromino tetromino = getTetrominoAt(i, y);
+			if(tetromino == null){
+				return false;
+			}
+		}
+		return true;
+	}
+	private boolean containY(int y){
+		for (int i = 0; i < width; i++) {
+			Tetromino tetromino = getTetrominoAt(i, y);
+			if(tetromino != null){
+				return true;
+			}
+		}
+		return false;
+	}
 }
