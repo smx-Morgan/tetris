@@ -21,7 +21,6 @@ public class Board {
 	/**
 	 * The width of the board in columns.
 	 */
-
 	private final int width;
 	/**
 	 * The height of the board in rows.
@@ -186,6 +185,102 @@ public class Board {
 	}
 
 
+	private boolean isLineFull(int y) {
+		for(int x = 0; x < width; ++x) {
+			if(getPlacedTetrominoAt(x, y) == null)
+				return false;
+		}
+		return true;
+	}
+	public boolean CheckLanded(ActiveTetromino activeTetromino){
+		//if it is null return false
+		if(activeTetromino == null){
+			return false;
+		}
+		//if torching floor return true
+		for(int x = 0; x < getWidth(); ++x) {
+			if (activeTetromino.isWithin(x, 0))
+				return true;
+		}
+		//check if there is color below the bound
+		Rectangle bound = activeTetromino.getBoundingBox();
+		for (int i = bound.getMinX(); i <= bound.getMaxX() ; i++) {
+			for (int j = bound.getMinY(); j <= bound.getMaxY() ; j++) {
+
+				if(!activeTetromino.isWithin(i, j))
+					continue;
+                //check if every tetromino don't have color below it
+				Tetromino t = getTetrominoAt(i, j-1);
+				if(t != null && t != activeTetromino)
+					return true;
+			}
+		}
+		return  false;
+	}
+
+	public boolean CheckTouch1(ActiveTetromino activeTetromino){
+		//if it is null return false
+		if(activeTetromino == null){
+			return false;
+		}
+
+		//check if there is color below the bound
+		Rectangle bound = activeTetromino.getBoundingBox();
+		for (int i = bound.getMinY(); i <= bound.getMaxY() ; i++) {
+			for (int j = bound.getMinX(); j <= bound.getMaxX() ; j++) {
+				if(j != 0){
+					if(!activeTetromino.isWithin(j, i))
+						continue;
+					//check if every tetromino don't have color below it
+
+					Tetromino t = getTetrominoAt(j - 1, i);
+					if(t != null && t != activeTetromino)
+						return true;
+
+				}else{
+					return false;
+				}
+
+
+			}
+		}
+		return  false;
+	}
+
+
+	public boolean CheckTouch2(ActiveTetromino activeTetromino){
+		//if it is null return false
+		if(activeTetromino == null){
+			return false;
+		}
+		//if it is null return false
+		if(activeTetromino == null){
+			return false;
+		}
+
+		//check if there is color below the bound
+		Rectangle bound = activeTetromino.getBoundingBox();
+		for (int i = bound.getMinY(); i <= bound.getMaxY() ; i++) {
+			for (int j = bound.getMinX(); j <= bound.getMaxX() ; j++) {
+				if(j != 0){
+					if(!activeTetromino.isWithin(j, i))
+						continue;
+					//check if every tetromino don't have color below it
+
+					Tetromino t = getTetrominoAt(j + 1, i);
+					if(t != null && t != activeTetromino)
+						return true;
+
+				}else{
+					return false;
+				}
+
+
+			}
+		}
+		return  false;
+	}
+
 	/**
 	 * Place a given tetromino on the board by filling out each square it contains
 	 * on the board.
@@ -194,7 +289,6 @@ public class Board {
 	 */
 	public void placeTetromino(Tetromino t) {
 		Rectangle r = t.getBoundingBox();
-		//
 		for (int x = r.getMinX(); x <= r.getMaxX(); ++x) {
 			for (int y = r.getMinY(); y <= r.getMaxY(); ++y) {
 				if (t.isWithin(x, y)) {
@@ -221,5 +315,45 @@ public class Board {
 			res.append("\n");
 		}
 		return res.toString();
+	}
+	public void LineProcess() {
+		// let i-> y, j-> x
+		int count = -1;
+		for (int i = height - 1; i >=0 ; i--) {
+			if(containY(i)){
+				count =Math.max(i,count);
+			}
+			if(lineFull(i)){
+				for (int j = 0; j < width; j++) {
+					// move the y+1 one to y
+					Tetromino tetromino = getPlacedTetrominoAt(j, i + 1);
+					setPlacedTetrominoAt(j, i, tetromino);
+					//remove the top layer
+					if(count != -1){
+						setPlacedTetrominoAt(j, count, null);
+					}
+				}
+				//if there have two layers to move
+				count = count - 1;
+			}
+		}
+	}
+	private boolean lineFull(int y){
+		for (int i = 0; i < width; i++) {
+			Tetromino tetromino = getTetrominoAt(i, y);
+			if(tetromino == null){
+				return false;
+			}
+		}
+		return true;
+	}
+	private boolean containY(int y){
+		for (int i = 0; i < width; i++) {
+			Tetromino tetromino = getTetrominoAt(i, y);
+			if(tetromino != null){
+				return true;
+			}
+		}
+		return false;
 	}
 }
