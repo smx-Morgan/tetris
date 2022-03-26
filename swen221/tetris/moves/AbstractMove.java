@@ -5,6 +5,7 @@ package swen221.tetris.moves;
 
 import swen221.tetris.logic.Board;
 import swen221.tetris.logic.Rectangle;
+import swen221.tetris.tetromino.ActiveTetromino;
 import swen221.tetris.tetromino.Tetromino;
 
 /**
@@ -21,6 +22,17 @@ public abstract class AbstractMove implements Move {
 		// NOTE: to check whether move is valid or not, you can employ Move.apply() to
 		// compute the new board and then check whether the active tetromino is in a
 		// valid position.
+		//Board replace = apply(board);
+		//ActiveTetromino activeTetromino = replace.getActiveTetromino();
+		if(board.getActiveTetromino() == null) return false;
+
+		//I find that it will not check if there is already have Tetromino
+		/*for(int x = activeTetromino.getBoundingBox().getMinX(); x < activeTetromino.getBoundingBox().getMaxX(); ++x) {
+			for(int y = activeTetromino.getBoundingBox().getMinY(); y < activeTetromino.getBoundingBox().getMaxY(); ++y) {
+				if(board.getPlacedTetrominoAt(x, y) != null)
+					return false;
+			}
+		}*/
 		return true;
 	}
 
